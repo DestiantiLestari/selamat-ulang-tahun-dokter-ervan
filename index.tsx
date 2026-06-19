@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom/client';
 import confetti from 'canvas-confetti';
 import drErvanScrapbookJpg from './src/assets/images/dr_ervan_scrapbook_1781800733989.jpg';
 import drErvanPortraitJpg from './src/assets/images/ervan.jpeg';
+import drErvanTravelJpg from './src/assets/images/dokter.jpg';
 import { 
   Heart, 
   Calendar, 
@@ -22,19 +23,14 @@ import {
   Check
 } from 'lucide-react';
 
-// Single beautifully crafted poetic letter written from "Me" to dr. Ervan on his birthday June 19
-const POETIC_LETTER = `Selamat Hari Lahir, dr. Ervan! 🌸
+// Single beautifully crafted letter written to dr. Ervan on his birthday June 19
+const POETIC_LETTER = `Selamat bertambah usia, dokter Ervan.
 
-Matahari bersinar lebih hangat hari ini, bersuka cita merayakan hari lahir sosok berhati mulia sepertimu. 
+Terima kasih sudah sampai di titik ini dengan semua kesibukan dan tanggung jawab yang pasti tidak sedikit. Di balik hari-hari yang padat, pasti banyak hal kecil yang sudah dilewati dan banyak usaha yang tidak selalu terlihat orang lain.
 
-Kamu telah menjadi pelita bagi banyak jiwa yang mencari kesembuhan, memberikan rasa tenang lewat kata-kata lembut serta sentuhan pengobatan yang penuh dengan ketulusan hati. Di setiap langkahmu terukir kesabaran yang luar biasa, mengubah kecemasan menjadi lentera harapan bagi kesembuhan sesama.
+Ke depan, hari-harinya diisi dengan hal yang lebih lancar, pekerjaan yang tetap berjalan baik, dan juga waktu yang cukup untuk istirahat di tengah kesibukan. Semoga semuanya berjalan baik seperti yang diharapkan.
 
-Semoga hidupmu selalu dihiasi tawa riang, dikelilingi orang-orang terkasih yang menyayangimu, dan dilingkupi kesehatan jasmani serta ketenteraman jiwa yang sempurna. Teruslah memancarkan kebaikan dan menjadi berkah indah untuk dunia sekitar.
-
-Nikmati hari istimewa ini dengan sejuta kedamaian dan sukacita yang mekar di dadamu! ✨
-
-Dengan tulus mendoakanmu selalu,
-Seseorang yang Mengagumimu 🩺💖`;
+Jangan lupa istirahat ya dok.`;
 
 // Happy Birthday Melody in Frequencies for our custom Music Box Synth
 const HPB_MELODY = [
@@ -86,6 +82,10 @@ function App() {
   const synthNodesRef = useRef<any[]>([]);
   const isAudioPlayingRef = useRef(false);
 
+  // Dedicated Canvas and confetti references
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const confettiInstanceRef = useRef<any>(null);
+
   // Refs for custom elements
   const scrapbookRef = useRef<HTMLDivElement>(null);
 
@@ -105,24 +105,36 @@ function App() {
     }
 
     const handleGlobalInteraction = () => {
-      if (!isAudioPlayingRef.current) {
-        setAudioPlaying(true);
-        playMelody();
+      setAudioPlaying(true);
+      
+      let needsRestart = false;
+      if (audioCtxRef.current) {
+        if (audioCtxRef.current.state === 'suspended') {
+          audioCtxRef.current.resume().catch((err) => console.log('Error resuming context', err));
+          needsRestart = true;
+        }
+      } else {
+        needsRestart = true;
       }
+      
+      playMelody(needsRestart);
+
       // Remove listeners once safely activated
-      document.removeEventListener('click', handleGlobalInteraction);
-      document.removeEventListener('touchstart', handleGlobalInteraction);
-      document.removeEventListener('pointerdown', handleGlobalInteraction);
+      const events = ['click', 'touchstart', 'pointerdown', 'pointermove', 'scroll', 'keydown'];
+      events.forEach((evt) => {
+        document.removeEventListener(evt, handleGlobalInteraction);
+      });
     };
 
-    document.addEventListener('click', handleGlobalInteraction);
-    document.addEventListener('touchstart', handleGlobalInteraction);
-    document.addEventListener('pointerdown', handleGlobalInteraction);
+    const events = ['click', 'touchstart', 'pointerdown', 'pointermove', 'scroll', 'keydown'];
+    events.forEach((evt) => {
+      document.addEventListener(evt, handleGlobalInteraction, { passive: true });
+    });
 
     return () => {
-      document.removeEventListener('click', handleGlobalInteraction);
-      document.removeEventListener('touchstart', handleGlobalInteraction);
-      document.removeEventListener('pointerdown', handleGlobalInteraction);
+      events.forEach((evt) => {
+        document.removeEventListener(evt, handleGlobalInteraction);
+      });
     };
   }, []);
 
@@ -134,27 +146,89 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Standard interactive confetti triggers
+  // Standard interactive confetti triggers with safe fallback
   const triggerConfetti = () => {
-    confetti({
-      particleCount: 150,
-      spread: 85,
-      origin: { y: 0.65 },
-      colors: ['#FFB7C5', '#CBDCCB', '#FCF6F0', '#E89BB0', '#8FA89B'],
-    });
+    try {
+      if (!confettiInstanceRef.current && canvasRef.current) {
+        confettiInstanceRef.current = confetti.create(canvasRef.current, {
+          resize: true,
+          useWorkers: true,
+        });
+      }
+      if (confettiInstanceRef.current) {
+        confettiInstanceRef.current({
+          particleCount: 150,
+          spread: 85,
+          origin: { y: 0.65 },
+          colors: ['#FFB7C5', '#CBDCCB', '#FCF6F0', '#E89BB0', '#8FA89B'],
+        });
+      }
+    } catch (e) {
+      console.warn("Confetti invocation error", e);
+      try {
+        confetti({
+          particleCount: 150,
+          spread: 85,
+          origin: { y: 0.65 },
+          colors: ['#FFB7C5', '#CBDCCB', '#FCF6F0', '#E89BB0', '#8FA89B'],
+        });
+      } catch (err) {}
+    }
   };
 
   const triggerCakeBlowConfetti = () => {
-    confetti({
-      particleCount: 120,
-      spread: 80,
-      origin: { y: 0.75 },
-      colors: ['#FFB7C5', '#CBDCCB', '#FCF6F0', '#FFF0F2'],
-    });
+    try {
+      if (!confettiInstanceRef.current && canvasRef.current) {
+        confettiInstanceRef.current = confetti.create(canvasRef.current, {
+          resize: true,
+          useWorkers: true,
+        });
+      }
+      if (confettiInstanceRef.current) {
+        confettiInstanceRef.current({
+          particleCount: 120,
+          spread: 80,
+          origin: { y: 0.75 },
+          colors: ['#FFB7C5', '#CBDCCB', '#FCF6F0', '#FFF0F2'],
+        });
+      }
+    } catch (e) {
+      console.warn("Cake confetti invocation error", e);
+      try {
+        confetti({
+          particleCount: 120,
+          spread: 80,
+          origin: { y: 0.75 },
+          colors: ['#FFB7C5', '#CBDCCB', '#FCF6F0', '#FFF0F2'],
+        });
+      } catch (err) {}
+    }
   };
 
   // Web Audio Music Box Pluck Synthesis
-  const playMelody = () => {
+  const playMelody = (forceRestart = false) => {
+    // If already scheduled and we don't force a restart, make sure to resume and exit early to prevent double audio overlaps
+    if (playLoopTimeoutRef.current && !forceRestart) {
+      if (audioCtxRef.current && audioCtxRef.current.state === 'suspended') {
+        audioCtxRef.current.resume().catch((err) => console.log('Audio resume error', err));
+      }
+      return;
+    }
+
+    // Stop and clear any existing timeout if we are restarting
+    if (playLoopTimeoutRef.current && forceRestart) {
+      clearTimeout(playLoopTimeoutRef.current);
+      playLoopTimeoutRef.current = null;
+    }
+
+    // Safeguard connection cleanup
+    try {
+      synthNodesRef.current.forEach((node) => {
+        try { node.disconnect(); } catch (e) {}
+      });
+      synthNodesRef.current = [];
+    } catch (e) {}
+
     if (!audioCtxRef.current) {
       audioCtxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
     }
@@ -226,6 +300,8 @@ function App() {
     const totalMelodyDurationMs = HPB_MELODY.reduce((sum, item) => sum + item.dur * 1.05, 0) * 1000;
     playLoopTimeoutRef.current = window.setTimeout(() => {
       if (isAudioPlayingRef.current) {
+        // Reset the timeout ref value on callback so that the next playMelody execution compiles
+        playLoopTimeoutRef.current = null;
         playMelody();
       }
     }, totalMelodyDurationMs);
@@ -250,8 +326,27 @@ function App() {
   return (
     <div className="min-h-screen bg-pastel-green-light bg-journal-dots relative font-sans text-stone-700 py-6 px-4 md:py-12 sm:px-6 overflow-x-hidden selection:bg-pastel-green selection:text-white">
       
-      {/* Cleared heavy background animations for buttery smooth scrolling and elegant minimal presentation */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-0" />
+      {/* Custom target canvas for canvas-confetti to prevent global window object lookup collisions */}
+      <canvas 
+        ref={canvasRef} 
+        className="pointer-events-none fixed inset-0 w-full h-full z-50"
+      />
+
+      {/* Luxurious ambient background decorations (gold leaves, glowing warm light fields, & magical sparkles in empty margins) */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-0">
+        {/* Floating golden starry sparkles in margins */}
+        <div className="absolute top-[12%] left-[4%] text-2xl lg:text-3xl opacity-35 animate-float select-none">✨</div>
+        <div className="absolute top-[28%] right-[3%] text-3xl lg:text-4xl opacity-30 animate-float-slow select-none" style={{ animationDelay: '1.5s' }}>💫</div>
+        <div className="absolute top-[48%] left-[2%] text-4xl lg:text-5xl opacity-20 animate-float select-none">🌿</div>
+        <div className="absolute top-[68%] right-[2%] text-3xl lg:text-4xl opacity-35 animate-float-slow select-none" style={{ animationDelay: '0.8s' }}>✨</div>
+        <div className="absolute top-[82%] left-[3%] text-2xl lg:text-3xl opacity-25 animate-float select-none">🌸</div>
+        <div className="absolute top-[18%] right-[5%] text-xl lg:text-2xl opacity-40 animate-float select-none" style={{ animationDelay: '4s' }}>✨</div>
+        <div className="absolute bottom-[8%] right-[8%] text-4xl opacity-20 animate-float select-none">💖</div>
+
+        {/* Subtle premium warm gold and soft sage green radial glows to give a high-end luxury feel */}
+        <div className="absolute top-[18%] left-[12%] w-[400px] h-[400px] rounded-full bg-amber-200/15 blur-[120px] mix-blend-multiply" />
+        <div className="absolute bottom-[22%] right-[8%] w-[500px] h-[500px] rounded-full bg-emerald-100/30 blur-[130px]" />
+      </div>
 
       {/* Main Single Page Frame container */}
       <div className="max-w-6xl mx-auto relative z-10">
@@ -273,21 +368,22 @@ function App() {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1 }}
-              className="bg-white/85 backdrop-blur-md px-10 py-7 rounded-[2rem] shadow-sm border border-pastel-green-light relative overflow-hidden"
+              className="bg-gradient-to-b from-white to-stone-50/90 backdrop-blur-md px-10 py-8 rounded-[2rem] shadow-md border-2 border-amber-200/50 relative overflow-hidden"
             >
+              {/* Luxury Frame Accents in corners */}
+              <div className="absolute top-2 left-2 w-6 h-6 border-t-2 border-l-2 border-amber-300/60 rounded-tl-xl" />
+              <div className="absolute top-2 right-2 w-6 h-6 border-t-2 border-r-2 border-amber-300/60 rounded-tr-xl" />
+              <div className="absolute bottom-2 left-2 w-6 h-6 border-b-2 border-l-2 border-amber-300/60 rounded-bl-xl" />
+              <div className="absolute bottom-2 right-2 w-6 h-6 border-b-2 border-r-2 border-amber-300/60 rounded-br-xl" />
+
+              {/* Decorative Subtle Star elements */}
+              <div className="absolute top-3 right-12 text-amber-400 opacity-60 animate-bounce text-sm">✦</div>
+              <div className="absolute bottom-3 left-12 text-amber-500 opacity-40 animate-pulse text-xs">✦</div>
               
-              <h4 className="font-serif italic text-pastel-green-dark text-xl sm:text-2xl md:text-3xl font-extrabold mb-2.5">
-                Hari Istimewa • Doa Terbaik Sepanjang Masa
-              </h4>
-
-              <h1 className="font-serif font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-stone-850 tracking-tight leading-tight mb-4">
+              <h1 className="font-serif font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-stone-850 tracking-tight leading-tight relative z-10">
                 Selamat Ulang Tahun, <br className="sm:hidden" />
-                <span className="text-pastel-green-dark italic">dr. Ervan! ✨</span>
+                <span className="bg-gradient-to-r from-emerald-800 via-emerald-600 to-amber-600 bg-clip-text text-transparent italic">dr. Ervan! ✨</span>
               </h1>
-
-              <p className="text-stone-600 font-sans text-sm sm:text-base md:text-lg font-medium tracking-wide max-w-2xl mx-auto leading-relaxed mt-4">
-                Scrapbook penuh kenangan dan doa terbaik yang kupersembahkan khusus sebagai kado terindah untuk merayakan hari lahir dokter yang paling ramah, hangat, dan penyabar! 👨‍⚕️🩺💖
-              </p>
             </motion.div>
           </div>
 
@@ -329,18 +425,25 @@ function App() {
                 <span className="text-[8px] font-mono font-semibold text-pastel-green-dark">DOKTER FAVORIT 🩺❤️</span>
               </div>
 
-              {/* Portrait container image */}
-              <div className="w-full aspect-[3/4] rounded-xl overflow-hidden bg-white border border-pastel-cream-dark shadow-inner relative group">
-                
-                <img 
-                  src={drErvanPortraitJpg} 
-                  alt="Scrapbook dr. Ervan Illustration" 
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-700 group-hover:scale-105"
-                />
+              {/* Portrait container image with luxury gold border framing and photo mounts */}
+              <div className="w-full aspect-[3/4] rounded-xl overflow-hidden bg-white border border-pastel-cream-dark shadow-inner relative group p-2.5 bg-gradient-to-br from-amber-100/40 via-white to-white">
+                <div className="w-full h-full rounded-lg overflow-hidden relative">
+                  <img 
+                    src={drErvanPortraitJpg} 
+                    alt="Scrapbook dr. Ervan Illustration" 
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-700 group-hover:scale-105"
+                  />
+                  
+                  {/* Real Scrapbook Gold Metallic Photo Mount Corners */}
+                  <div className="absolute top-1.5 left-1.5 w-4 h-4 border-t-2 border-l-2 border-amber-400 rotate-0 rounded-tl-xs" />
+                  <div className="absolute top-1.5 right-1.5 w-4 h-4 border-t-2 border-r-2 border-amber-400 rotate-0 rounded-tr-xs" />
+                  <div className="absolute bottom-1.5 left-1.5 w-4 h-4 border-b-2 border-l-2 border-amber-400 rotate-0 rounded-bl-xs" />
+                  <div className="absolute bottom-1.5 right-1.5 w-4 h-4 border-b-2 border-r-2 border-amber-400 rotate-0 rounded-br-xs" />
+                </div>
 
                 {/* Aesthetic stamp circle marker */}
-                <div className="absolute bottom-3 right-3 bg-pastel-green-dark/95 backdrop-blur-xs text-white text-xs py-1.5 px-3 rounded-full font-mono font-bold tracking-wider flex items-center space-x-1.5 shadow-md">
+                <div className="absolute bottom-4 right-4 bg-pastel-green-dark/95 backdrop-blur-xs text-white text-xs py-1.5 px-3 rounded-full font-mono font-bold tracking-wider flex items-center space-x-1.5 shadow-md">
                   <span>JUNE 19</span>
                   <div className="w-2 h-2 bg-white rounded-full animate-ping" />
                 </div>
@@ -360,10 +463,6 @@ function App() {
                 <h3 className="font-hand text-4xl sm:text-5xl text-pastel-green-dark font-black tracking-wide">
                   dr. Ervan • 19 Juni 2026
                 </h3>
-                <div className="flex items-center justify-center space-x-1.5 mt-2.5 text-xs sm:text-sm text-stone-500 font-bold font-mono tracking-wider">
-                  <Camera className="w-4 h-4 text-pastel-green-dark" />
-                  <span>DEDIKASI, KELUHURAN & RAMAH SEJATI</span>
-                </div>
               </div>
 
               {/* Pin Decoration */}
@@ -385,7 +484,7 @@ function App() {
                 <div className="p-1.5 bg-emerald-50 rounded-lg text-pastel-green-dark">
                   <Gift className="w-4 h-4" />
                 </div>
-                <h3 className="font-serif font-black text-lg text-pastel-green-dark">Kue Tiup Lilin Harapan</h3>
+                <h3 className="font-serif font-black text-lg text-pastel-green-dark">Make a wish</h3>
               </div>
 
               {/* Interactive Candle Blow Area */}
@@ -511,7 +610,6 @@ function App() {
               <div className="flex items-center justify-between mb-4 pl-12">
                 <div className="flex items-center space-x-2">
                   <Calendar className="w-4 h-4 text-pastel-green-dark" />
-                  <h3 className="font-serif font-black text-lg text-pastel-green-dark">Momen Kebahagiaan</h3>
                 </div>
                 <div className="bg-white/90 backdrop-blur-xs px-2.5 py-0.5 rounded-full border border-pastel-green text-[10px] font-bold text-pastel-green-dark tracking-wide uppercase font-mono">
                   Juni 2026 🗓️
@@ -584,10 +682,7 @@ function App() {
                 </motion.div>
               </div>
 
-              {/* Aesthetic Calendar Caption */}
-              <p className="font-hand text-2xl sm:text-3xl text-pastel-green-dark font-black text-center mt-8 mb-2 leading-relaxed">
-                "Hari indah di mana lahirnya sosok baik hati pembawa tawa, berkat, dan sejuta kesembuhan!"
-              </p>
+
             </motion.div>
 
 
@@ -605,24 +700,30 @@ function App() {
                 ease: "easeInOut",
                 delay: 0.5
               }}
-              className="bg-pastel-cream p-5 pb-6 rounded-2xl polaroid-shadow border border-slate-100 relative select-none max-w-sm sm:max-w-md w-full mx-auto"
+              className="bg-pastel-cream p-5 pb-6 rounded-2xl polaroid-shadow border border-slate-100 relative select-none max-w-sm sm:max-w-md w-full mx-auto animate-float-slow"
             >
               {/* Green washi tape */}
               <div className="absolute -top-3 left-1/4 w-28 h-6 washi-tape-green -rotate-3 z-10 opacity-90 animate-pulse" />
               
-              <div className="w-full aspect-[4/3] rounded-lg overflow-hidden bg-white border border-pastel-cream-dark shadow-inner relative group">
-                <img 
-                  src={drErvanScrapbookJpg} 
-                  alt="dr. Ervan Portrait decoration" 
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover select-none pointer-events-none transition-all duration-700 filter saturate-100 hue-rotate-15 contrast-105"
-                />
-                <div className="absolute top-2.5 right-2.5 bg-emerald-700/90 text-white text-xs py-1 px-3 rounded font-mono uppercase font-black tracking-widest shadow-md">
+              <div className="w-full aspect-[4/3] rounded-lg overflow-hidden bg-white border border-pastel-cream-dark shadow-inner relative group p-2 bg-gradient-to-br from-amber-100/40 via-white to-white">
+                <div className="w-full h-full rounded-md overflow-hidden relative">
+                  <img 
+                    src={drErvanTravelJpg} 
+                    alt="dr. Ervan Portrait decoration" 
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover select-none pointer-events-none transition-all duration-700 filter saturate-100 hue-rotate-15 contrast-105"
+                  />
+                  {/* Real Scrapbook Gold Metallic Photo Mount Corners */}
+                  <div className="absolute top-1 left-1 w-4 h-4 border-t-2 border-l-2 border-amber-400 rotate-0 rounded-tl-xs" />
+                  <div className="absolute top-1 right-1 w-4 h-4 border-t-2 border-r-2 border-amber-400 rotate-0 rounded-tr-xs" />
+                  <div className="absolute bottom-1 left-1 w-4 h-4 border-b-2 border-l-2 border-amber-400 rotate-0 rounded-bl-xs" />
+                  <div className="absolute bottom-1 right-1 w-4 h-4 border-b-2 border-r-2 border-amber-400 rotate-0 rounded-br-xs" />
+                </div>
+                <div className="absolute top-3.5 right-3.5 bg-emerald-700/90 text-white text-xs py-1 px-3 rounded font-mono uppercase font-black tracking-widest shadow-md z-10">
                   SMILE ✨
                 </div>
               </div>
               <div className="text-center mt-4">
-                <span className="font-hand text-3xl sm:text-4xl text-pastel-green-dark font-black leading-tight">Lentera Kebaikan Pasien 🌟</span>
                 <p className="text-xs text-stone-500 font-bold font-mono tracking-wider mt-1.5 uppercase">TERIMA KASIH ATAS KETULUSAN & PENGABDIANMU</p>
               </div>
             </motion.div>
@@ -635,17 +736,6 @@ function App() {
               <div className="absolute top-[-10px] left-12 w-20 h-5 washi-tape-green -rotate-3 opacity-90 animate-pulse" />
               <div className="absolute top-1 right-8 pointer-events-none select-none text-2xl animate-float-slow">💌</div>
 
-              {/* Header Letter Meta info */}
-              <div className="flex items-center justify-between border-b border-dashed border-stone-200 pb-3 mb-5">
-                <div className="flex items-center space-x-1.5 text-xs text-stone-500 font-bold uppercase font-mono tracking-wider">
-                  <BookOpen className="w-4 h-4 text-pastel-green-dark" />
-                  <span>Surat Puitis Dari Hatiku</span>
-                </div>
-                <span className="text-[10px] font-mono bg-pastel-green-light text-pastel-green-dark px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">
-                  Khusus Hari Ini 💕
-                </span>
-              </div>
-
               {/* WRITTEN POETIC LETTER IN LINED SCRAPBOOK CONTAINER */}
               <div className="relative mb-6">
                 <motion.div 
@@ -657,12 +747,6 @@ function App() {
                 >
                   {POETIC_LETTER}
                 </motion.div>
-
-                {/* Direct red certified beautiful stamp icon */}
-                <div className="absolute bottom-[-16px] right-2 transform rotate-12 opacity-80 pointer-events-none select-none bg-rose-50 border-2 border-dashed border-rose-300 text-rose-500 rounded-full w-16 h-16 flex flex-col items-center justify-center text-[10px] font-bold font-serif shadow-xs">
-                  <span>TERBAIK</span>
-                  <span>100%</span>
-                </div>
               </div>
 
             </div>
@@ -673,9 +757,6 @@ function App() {
 
         {/* --- SMALL SCRAPBOOK FOOTER --- */}
         <footer className="text-center mt-12 mb-6">
-          <p className="text-xs text-stone-400 font-mono tracking-widest uppercase">
-            Dibuat dengan segenap ketulusan, rasa kagum, dan doa terbaik untuk dr. Ervan • 19 Juni 2026 💖
-          </p>
           <div className="flex items-center justify-center space-x-2 mt-3 opacity-60">
             <span className="w-1.5 h-1.5 bg-rose-450 rounded-full animate-bounce" />
             <span className="w-1.5 h-1.5 bg-pastel-green-dark rounded-full animate-pulse" />
