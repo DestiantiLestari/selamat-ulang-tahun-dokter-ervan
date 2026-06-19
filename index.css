@@ -24,8 +24,8 @@
 
 .bg-journal-lines {
   background-image: linear-gradient(#e2e8f0 1px, transparent 1px);
-  background-size: 100% 28px;
-  line-height: 28px;
+  background-size: 100% 40px;
+  line-height: 40px;
 }
 
 /* Torn paper look */

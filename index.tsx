@@ -6,6 +6,7 @@ import { motion } from 'motion/react';
 import { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom/client';
 import confetti from 'canvas-confetti';
+import drErvanScrapbookJpg from './src/assets/images/dr_ervan_scrapbook_1781800733989.jpg';
 import { 
   Heart, 
   Calendar, 
@@ -250,11 +251,11 @@ function App() {
     <div className="min-h-screen bg-pastel-green-light bg-journal-dots relative font-sans text-stone-700 py-6 px-4 md:py-12 sm:px-6 overflow-x-hidden selection:bg-pastel-green selection:text-white">
       
       {/* Gentle Floating Background Elements (Cute Scrapbook Style - Multi-motion) */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-0">
         
         {/* Soft Sage Balloon */}
         <motion.div 
-          className="absolute left-[8%] top-[12%] text-[4.5rem] opacity-40 sticky"
+          className="absolute left-[4%] top-[10%] text-[4rem] opacity-15 pointer-events-none z-0 hidden lg:block"
           animate={{ 
             y: [0, -30, 0], 
             rotate: [2, 12, -4, 2],
@@ -267,7 +268,7 @@ function App() {
 
         {/* Soft Sage Balloon */}
         <motion.div 
-          className="absolute right-[10%] top-[25%] text-[5.5rem] opacity-35 sticky"
+          className="absolute right-[6%] top-[20%] text-[4.5rem] opacity-15 pointer-events-none z-0 hidden lg:block"
           animate={{ 
             y: [0, -38, 0], 
             rotate: [-4, -14, 8, -4],
@@ -280,7 +281,7 @@ function App() {
 
         {/* Floating Pastel Heart Left */}
         <motion.div 
-          className="absolute left-[4%] bottom-[25%] text-rose-300 opacity-50 text-5xl font-bold sticky"
+          className="absolute left-[2%] bottom-[25%] text-rose-350 opacity-20 text-4xl font-bold pointer-events-none z-0"
           animate={{ 
             y: [0, -22, 0], 
             scale: [1, 1.15, 0.9, 1],
@@ -293,7 +294,7 @@ function App() {
 
         {/* Floating Pastel Heart Right */}
         <motion.div 
-          className="absolute right-[5%] bottom-[18%] text-rose-300 opacity-55 text-6xl sticky"
+          className="absolute right-[2%] bottom-[15%] text-rose-350 opacity-20 text-5xl pointer-events-none z-0"
           animate={{ 
             y: [0, -28, 0], 
             scale: [1, 1.08, 0.95, 1.08, 1],
@@ -306,7 +307,7 @@ function App() {
 
         {/* Floating Big Daisy Flower */}
         <motion.div 
-          className="absolute left-[38%] top-[3%] text-pink-300 opacity-20 text-6xl sticky"
+          className="absolute left-[38%] top-[2%] text-pink-350 opacity-15 text-5xl pointer-events-none z-0 hidden md:block"
           animate={{ rotate: 360 }}
           transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
         >
@@ -315,7 +316,7 @@ function App() {
 
         {/* Floating Little Yellow Flower */}
         <motion.div 
-          className="absolute right-[42%] bottom-[8%] text-amber-300 opacity-25 text-5xl sticky"
+          className="absolute right-[40%] bottom-[6%] text-amber-300 opacity-20 text-4xl pointer-events-none z-0 hidden md:block"
           animate={{ 
             rotate: -360,
             y: [0, -15, 0]
@@ -420,16 +421,16 @@ function App() {
               <div className="absolute -bottom-2 -left-2 text-xl opacity-60 select-none">🍀</div>
               <div className="absolute -bottom-2 -right-2 text-xl opacity-60 select-none">🌿</div>
 
-              <h4 className="font-serif italic text-pastel-green-dark text-lg md:text-xl font-semibold mb-1">
+              <h4 className="font-serif italic text-pastel-green-dark text-xl sm:text-2xl md:text-3xl font-extrabold mb-2.5">
                 Hari Istimewa • Doa Terbaik Sepanjang Masa
               </h4>
 
-              <h1 className="font-serif font-black text-3xl sm:text-5xl md:text-6xl text-pastel-green-dark tracking-tight leading-none mb-3">
+              <h1 className="font-serif font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-stone-850 tracking-tight leading-tight mb-4">
                 Selamat Ulang Tahun, <br className="sm:hidden" />
-                <span className="text-pastel-green-dark">dr. Ervan! ✨</span>
+                <span className="text-pastel-green-dark italic">dr. Ervan! ✨</span>
               </h1>
 
-              <p className="text-stone-500 font-sans text-xs sm:text-sm tracking-wide max-w-lg mx-auto leading-relaxed">
+              <p className="text-stone-600 font-sans text-sm sm:text-base md:text-lg font-medium tracking-wide max-w-2xl mx-auto leading-relaxed mt-4">
                 Platform scrapbook kebahagiaan digital yang kupersembahkan khusus sebagai kado terindah untuk merayakan hari lahir dokter yang paling ramah, hangat, dan penyabar! 👨‍⚕️🩺💖
               </p>
             </motion.div>
@@ -551,22 +552,22 @@ function App() {
               <div className="w-full aspect-[3/4] rounded-xl overflow-hidden bg-white border border-pastel-cream-dark shadow-inner relative group">
                 
                 <img 
-                  src="/src/assets/images/dr_ervan_scrapbook_1781800733989.jpg" 
+                  src={drErvanScrapbookJpg} 
                   alt="Scrapbook dr. Ervan Illustration" 
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-700 group-hover:scale-105"
                 />
 
                 {/* Aesthetic stamp circle marker */}
-                <div className="absolute bottom-2 right-2 bg-pastel-green-dark/90 backdrop-blur-xs text-white text-[10px] py-1 px-2.5 rounded-full font-mono font-bold tracking-wider flex items-center space-x-1 shadow-xs">
+                <div className="absolute bottom-3 right-3 bg-pastel-green-dark/95 backdrop-blur-xs text-white text-xs py-1.5 px-3 rounded-full font-mono font-bold tracking-wider flex items-center space-x-1.5 shadow-md">
                   <span>JUNE 19</span>
-                  <div className="w-1.5 h-1.5 bg-white rounded-full animate-ping" />
+                  <div className="w-2 h-2 bg-white rounded-full animate-ping" />
                 </div>
 
                 {/* Animated sparkly star inside the picture */}
                 <motion.div 
-                  className="absolute top-2 left-2 text-2xl select-none"
-                  animate={{ scale: [0.8, 1.3, 0.8], opacity: [0.5, 1, 0.5] }}
+                  className="absolute top-3 left-3 text-3xl select-none"
+                  animate={{ scale: [0.8, 1.4, 0.8], opacity: [0.6, 1, 0.6] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 >
                   ✨
@@ -574,12 +575,12 @@ function App() {
               </div>
 
               {/* Polaroid Handwritten Cursive Footer */}
-              <div className="text-center mt-4">
-                <h3 className="font-hand text-3xl text-pastel-green-dark font-black tracking-wide">
+              <div className="text-center mt-5">
+                <h3 className="font-hand text-4xl sm:text-5xl text-pastel-green-dark font-black tracking-wide">
                   dr. Ervan • 19 Juni 2026
                 </h3>
-                <div className="flex items-center justify-center space-x-1 mt-1 text-[10px] text-stone-400 font-bold font-mono tracking-wider">
-                  <Camera className="w-3.5 h-3.5 text-pastel-green-dark" />
+                <div className="flex items-center justify-center space-x-1.5 mt-2.5 text-xs sm:text-sm text-stone-500 font-bold font-mono tracking-wider">
+                  <Camera className="w-4 h-4 text-pastel-green-dark" />
                   <span>DEDIKASI, KELUHURAN & RAMAH SEJATI</span>
                 </div>
               </div>
@@ -782,13 +783,10 @@ function App() {
                             </span>
                           </motion.div>
                           
-                          {/* Sticker Badge beneath day 19 */}
-                          <div className="absolute -bottom-11 left-1/2 -translate-x-1/2 bg-white text-[9px] text-pastel-green-dark border border-pastel-green-dark px-2.5 py-0.5 rounded-md shadow-lg font-mono font-bold tracking-tight uppercase whitespace-nowrap z-20 pointer-events-none select-none">
-                            Dokter Ervan Day! 🎂🩺
-                          </div>
+                          <div className="absolute -bottom-2 w-1.5 h-1.5 bg-pastel-green-dark rounded-full animate-ping z-20" />
                         </>
                       ) : (
-                        <span className={`p-1.5 w-7 h-7 flex items-center justify-center rounded-lg ${day === 1 || day === 7 || day === 14 || day === 21 || day === 28 ? 'text-rose-400' : 'text-stone-500'} hover:bg-stone-50 transition-colors`}>
+                        <span className={`p-1.5 w-7 h-7 flex items-center justify-center rounded-lg ${day === 1 || day === 7 || day === 14 || day === 21 || day === 28 ? 'text-rose-400 font-bold' : 'text-stone-500'} hover:bg-stone-50 transition-colors`}>
                           {day}
                         </span>
                       )}
@@ -797,8 +795,24 @@ function App() {
                 })}
               </div>
 
+              {/* Dedicated non-overlapping Calendar Legend Badge */}
+              <div className="mt-8 flex justify-center">
+                <motion.div 
+                  whileHover={{ scale: 1.03 }}
+                  onClick={() => triggerConfetti()}
+                  className="bg-emerald-50/80 border border-pastel-green-dark/60 border-dashed px-4 py-2.5 rounded-xl flex items-center space-x-2.5 shadow-xs cursor-pointer select-none transition-all hover:bg-emerald-100/50"
+                >
+                  <div className="w-6 h-6 rounded-full stamp-border flex items-center justify-center bg-pastel-green-dark text-white text-[10px] sm:text-xs font-black shadow-xs">
+                    19
+                  </div>
+                  <span className="text-xs sm:text-sm font-bold text-pastel-green-dark uppercase tracking-wider">
+                    Hari Lahir dr. Ervan! 🎉🎂🩺
+                  </span>
+                </motion.div>
+              </div>
+
               {/* Aesthetic Calendar Caption */}
-              <p className="font-hand text-xl text-pastel-green-dark font-black text-center mt-12 mb-2 leading-relaxed">
+              <p className="font-hand text-2xl sm:text-3xl text-pastel-green-dark font-black text-center mt-8 mb-2 leading-relaxed">
                 "Hari indah di mana lahirnya sosok baik hati pembawa tawa, berkat, dan sejuta kesembuhan!"
               </p>
             </motion.div>
@@ -818,25 +832,25 @@ function App() {
                 ease: "easeInOut",
                 delay: 0.5
               }}
-              className="bg-pastel-cream p-4 pb-5 rounded-2xl polaroid-shadow border border-slate-100 relative select-none max-w-sm sm:max-w-md w-full mx-auto"
+              className="bg-pastel-cream p-5 pb-6 rounded-2xl polaroid-shadow border border-slate-100 relative select-none max-w-sm sm:max-w-md w-full mx-auto"
             >
               {/* Green washi tape */}
-              <div className="absolute -top-3 left-1/4 w-28 h-5.5 washi-tape-green -rotate-3 z-10 opacity-90" />
+              <div className="absolute -top-3 left-1/4 w-28 h-6 washi-tape-green -rotate-3 z-10 opacity-90 animate-pulse" />
               
               <div className="w-full aspect-[4/3] rounded-lg overflow-hidden bg-white border border-pastel-cream-dark shadow-inner relative group">
                 <img 
-                  src="/src/assets/images/dr_ervan_scrapbook_1781800733989.jpg" 
+                  src={drErvanScrapbookJpg} 
                   alt="dr. Ervan Portrait decoration" 
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover select-none pointer-events-none transition-all duration-700 filter saturate-100 hue-rotate-15 contrast-105"
                 />
-                <div className="absolute top-2 right-2 bg-emerald-700/80 text-white text-[9px] py-1 px-2.5 rounded font-mono uppercase font-black tracking-wide">
+                <div className="absolute top-2.5 right-2.5 bg-emerald-700/90 text-white text-xs py-1 px-3 rounded font-mono uppercase font-black tracking-widest shadow-md">
                   SMILE ✨
                 </div>
               </div>
-              <div className="text-center mt-3.5">
-                <span className="font-hand text-2xl text-pastel-green-dark font-black leading-tight">Lentera Kebaikan Pasien 🌟</span>
-                <p className="text-[10px] text-stone-400 font-bold font-mono tracking-wider mt-0.5">TERIMA KASIH ATAS KETULUSAN & PENGABDIANMU</p>
+              <div className="text-center mt-4">
+                <span className="font-hand text-3xl sm:text-4xl text-pastel-green-dark font-black leading-tight">Lentera Kebaikan Pasien 🌟</span>
+                <p className="text-xs text-stone-500 font-bold font-mono tracking-wider mt-1.5 uppercase">TERIMA KASIH ATAS KETULUSAN & PENGABDIANMU</p>
               </div>
             </motion.div>
 
@@ -845,9 +859,9 @@ function App() {
             <div id="scrapbook-letter-sheet" className="bg-[#FAFDFB] border border-pastel-green p-6 sm:p-8 rounded-[2rem] shadow-sm relative">
               
               {/* Circular Mini Photo Badge sticker */}
-              <div className="absolute top-3 right-12 w-14 h-14 rounded-full border-2 border-white bg-white shadow-md p-0.5 overflow-hidden rotate-12 hover:scale-110 transition-transform hidden sm:block z-10">
+              <div className="absolute top-3.5 right-12 w-16 h-16 rounded-full border-2 border-white bg-white shadow-md p-0.5 overflow-hidden rotate-12 hover:scale-110 transition-transform hidden sm:block z-10">
                 <img 
-                  src="/src/assets/images/dr_ervan_scrapbook_1781800733989.jpg" 
+                  src={drErvanScrapbookJpg} 
                   alt="Mini sticker" 
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover rounded-full"
@@ -875,7 +889,7 @@ function App() {
                   initial={{ opacity: 0, scale: 0.99 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5 }}
-                  className="font-sans text-sm sm:text-base text-stone-700 leading-relaxed whitespace-pre-wrap bg-journal-lines px-1 pb-2 font-medium"
+                  className="font-sans text-base sm:text-lg lg:text-xl text-stone-800 tracking-wide whitespace-pre-wrap bg-journal-lines px-1.5 pb-4 leading-[40px] font-bold"
                   style={{ textShadow: '0 0 1px rgba(255,255,255,0.8)' }}
                 >
                   {POETIC_LETTER}
