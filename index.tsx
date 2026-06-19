@@ -7,6 +7,7 @@ import { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom/client';
 import confetti from 'canvas-confetti';
 import drErvanScrapbookJpg from './src/assets/images/dr_ervan_scrapbook_1781800733989.jpg';
+import drErvanPortraitJpg from './src/assets/images/ervan.jpeg';
 import { 
   Heart, 
   Calendar, 
@@ -332,7 +333,7 @@ function App() {
               <div className="w-full aspect-[3/4] rounded-xl overflow-hidden bg-white border border-pastel-cream-dark shadow-inner relative group">
                 
                 <img 
-                  src={drErvanScrapbookJpg} 
+                  src={drErvanPortraitJpg} 
                   alt="Scrapbook dr. Ervan Illustration" 
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-700 group-hover:scale-105"
