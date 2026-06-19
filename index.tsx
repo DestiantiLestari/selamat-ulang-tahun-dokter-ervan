@@ -13,8 +13,6 @@ import {
   Sparkles, 
   Smile, 
   Gift, 
-  Volume2, 
-  VolumeX, 
   Camera,
   Stethoscope,
   Stars,
@@ -97,22 +95,33 @@ function App() {
 
   // Handle global click to initialize audio or trigger on any interaction
   useEffect(() => {
+    // Attempt automatic play immediately in case browser configuration permits
+    try {
+      setAudioPlaying(true);
+      playMelody();
+    } catch (e) {
+      console.log('Autoplay deferred until guest interaction');
+    }
+
     const handleGlobalInteraction = () => {
       if (!isAudioPlayingRef.current) {
         setAudioPlaying(true);
         playMelody();
       }
-      // Remove once initialized
+      // Remove listeners once safely activated
       document.removeEventListener('click', handleGlobalInteraction);
       document.removeEventListener('touchstart', handleGlobalInteraction);
+      document.removeEventListener('pointerdown', handleGlobalInteraction);
     };
 
     document.addEventListener('click', handleGlobalInteraction);
     document.addEventListener('touchstart', handleGlobalInteraction);
+    document.addEventListener('pointerdown', handleGlobalInteraction);
 
     return () => {
       document.removeEventListener('click', handleGlobalInteraction);
       document.removeEventListener('touchstart', handleGlobalInteraction);
+      document.removeEventListener('pointerdown', handleGlobalInteraction);
     };
   }, []);
 
@@ -235,17 +244,7 @@ function App() {
     setAudioPlaying(false);
   };
 
-  const toggleMusic = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Avoid double toggle from global container click
-    if (audioPlaying) {
-      stopAudio();
-    } else {
-      setAudioPlaying(true);
-      setTimeout(() => {
-        playMelody();
-      }, 50);
-    }
-  };
+
 
   return (
     <div className="min-h-screen bg-pastel-green-light bg-journal-dots relative font-sans text-stone-700 py-6 px-4 md:py-12 sm:px-6 overflow-x-hidden selection:bg-pastel-green selection:text-white">
@@ -256,39 +255,7 @@ function App() {
       {/* Main Single Page Frame container */}
       <div className="max-w-6xl mx-auto relative z-10">
 
-        {/* --- AUDIO MUSIC BOX PLAYER (Sticker-Style Record Widget) --- */}
-        <div id="audio-widget-container" className="fixed top-4 right-4 z-50">
-          <motion.button
-            id="audio-toggle-button"
-            onClick={toggleMusic}
-            whileHover={{ scale: 1.08 }}
-            whileTap={{ scale: 0.95 }}
-            className="flex items-center space-x-2 bg-white bg-opacity-90 backdrop-blur-md px-4 py-3 rounded-full shadow-md border border-pastel-green text-sm font-semibold hover:bg-pastel-cream text-stone-700 transition-colors"
-          >
-            <motion.div
-              animate={audioPlaying ? { rotate: 360 } : { rotate: 0 }}
-              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-              className={`p-1.5 rounded-full ${audioPlaying ? 'bg-pastel-green-dark text-white' : 'bg-pastel-green text-stone-800'}`}
-            >
-              <MusicBoxDiscIcon active={audioPlaying} />
-            </motion.div>
-            <span className="pr-1 text-xs">
-              {audioPlaying ? "Mute Musik Box 🎵" : "Putar Musik Box 📻"}
-            </span>
-            {audioPlaying ? (
-              <Volume2 className="w-4 h-4 text-pastel-green-dark animate-pulse" />
-            ) : (
-              <VolumeX className="w-4 h-4 text-stone-400" />
-            )}
-          </motion.button>
-        </div>
 
-        {/* Elegant static notice banner */}
-        <div className="text-center mb-3 -mt-4">
-          <span className="text-xs bg-white/95 px-4 py-1.5 rounded-full border border-pastel-green-light font-sans text-pastel-green-dark font-bold shadow-xs inline-block">
-            🎵 Ketuk di mana saja pada layar untuk memainkan lagu ulang tahun otomatis
-          </span>
-        </div>
 
         {/* --- HIGH-CRAFT HEADER RIBBON --- */}
         <header id="scrapbook-header" className="text-center mb-10 relative">
@@ -720,24 +687,7 @@ function App() {
   );
 }
 
-// Custom simple vinyl disc SVG record component for aesthetic widget
-function MusicBoxDiscIcon({ active }: { active: boolean }) {
-  return (
-    <svg 
-      className={`w-4 h-4 ${active ? 'animate-spin' : ''}`} 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      stroke="currentColor" 
-      strokeWidth="2.5" 
-      strokeLinecap="round" 
-      strokeLinejoin="round"
-    >
-      <circle cx="12" cy="12" r="10" />
-      <circle cx="12" cy="12" r="3" />
-      <path d="M12 2a10 10 0 0 1 10 10" />
-    </svg>
-  );
-}
+
 
 // Render React App
 const rootElement = document.getElementById('root');
