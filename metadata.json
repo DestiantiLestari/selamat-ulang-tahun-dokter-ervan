@@ -1,6 +1,8 @@
 {
-  "name": "ultah dokter ervan",
-  "description": "ultah dokter ervan",
+  "name": "Ultah Dokter Ervan",
+  "description": "Scrapbook kado ulang tahun penuh doa, kenangan indah, dan melodi kado terbaik khusus persembahan untuk dr. Ervan",
   "requestFramePermissions": [],
-  "majorCapabilities": []
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

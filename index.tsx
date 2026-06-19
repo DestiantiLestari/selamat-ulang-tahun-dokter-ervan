@@ -250,103 +250,8 @@ function App() {
   return (
     <div className="min-h-screen bg-pastel-green-light bg-journal-dots relative font-sans text-stone-700 py-6 px-4 md:py-12 sm:px-6 overflow-x-hidden selection:bg-pastel-green selection:text-white">
       
-      {/* Gentle Floating Background Elements (Cute Scrapbook Style - Multi-motion) */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-0">
-        
-        {/* Soft Sage Balloon */}
-        <motion.div 
-          className="absolute left-[4%] top-[10%] text-[4rem] opacity-15 pointer-events-none z-0 hidden lg:block"
-          animate={{ 
-            y: [0, -30, 0], 
-            rotate: [2, 12, -4, 2],
-            scale: [1, 1.05, 0.98, 1]
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        >
-          🎈
-        </motion.div>
-
-        {/* Soft Sage Balloon */}
-        <motion.div 
-          className="absolute right-[6%] top-[20%] text-[4.5rem] opacity-15 pointer-events-none z-0 hidden lg:block"
-          animate={{ 
-            y: [0, -38, 0], 
-            rotate: [-4, -14, 8, -4],
-            scale: [1, 0.97, 1.03, 1]
-          }}
-          transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
-        >
-          🎈
-        </motion.div>
-
-        {/* Floating Pastel Heart Left */}
-        <motion.div 
-          className="absolute left-[2%] bottom-[25%] text-rose-350 opacity-20 text-4xl font-bold pointer-events-none z-0"
-          animate={{ 
-            y: [0, -22, 0], 
-            scale: [1, 1.15, 0.9, 1],
-            rotate: [0, 15, -15, 0]
-          }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        >
-          💖
-        </motion.div>
-
-        {/* Floating Pastel Heart Right */}
-        <motion.div 
-          className="absolute right-[2%] bottom-[15%] text-rose-350 opacity-20 text-5xl pointer-events-none z-0"
-          animate={{ 
-            y: [0, -28, 0], 
-            scale: [1, 1.08, 0.95, 1.08, 1],
-            rotate: [5, -10, 10, 5]
-          }}
-          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        >
-          💝
-        </motion.div>
-
-        {/* Floating Big Daisy Flower */}
-        <motion.div 
-          className="absolute left-[38%] top-[2%] text-pink-350 opacity-15 text-5xl pointer-events-none z-0 hidden md:block"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-        >
-          🌸
-        </motion.div>
-
-        {/* Floating Little Yellow Flower */}
-        <motion.div 
-          className="absolute right-[40%] bottom-[6%] text-amber-300 opacity-20 text-4xl pointer-events-none z-0 hidden md:block"
-          animate={{ 
-            rotate: -360,
-            y: [0, -15, 0]
-          }}
-          transition={{ 
-            rotate: { duration: 20, repeat: Infinity, ease: "linear" },
-            y: { duration: 5, repeat: Infinity, ease: "easeInOut" }
-          }}
-        >
-          🌼
-        </motion.div>
-
-        {/* Tiny stars swaying around */}
-        <motion.div 
-          className="absolute left-[15%] top-[45%] text-amber-400 opacity-30 text-3xl"
-          animate={{ scale: [0.8, 1.3, 0.8], rotate: 45 }}
-          transition={{ duration: 3, repeat: Infinity }}
-        >
-          ✨
-        </motion.div>
-
-        <motion.div 
-          className="absolute right-[18%] top-[60%] text-amber-400 opacity-30 text-4xl"
-          animate={{ scale: [1.3, 0.8, 1.3], rotate: -45 }}
-          transition={{ duration: 4, repeat: Infinity, delay: 1.5 }}
-        >
-          ✨
-        </motion.div>
-
-      </div>
+      {/* Cleared heavy background animations for buttery smooth scrolling and elegant minimal presentation */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-0" />
 
       {/* Main Single Page Frame container */}
       <div className="max-w-6xl mx-auto relative z-10">
@@ -378,14 +283,14 @@ function App() {
           </motion.button>
         </div>
 
-        {/* Interactive sound notification toast banner */}
+        {/* Elegant static notice banner */}
         <div className="text-center mb-3 -mt-4">
-          <span className="text-[10px] bg-white bg-opacity-95 px-3 py-1.5 rounded-full border border-pastel-green-light font-mono text-pastel-green-dark font-bold shadow-xs animate-bounce inline-block">
-            ✨ Ketuk layar di mana saja untuk menyalakan lagu otomatis! 🎵
+          <span className="text-xs bg-white/95 px-4 py-1.5 rounded-full border border-pastel-green-light font-sans text-pastel-green-dark font-bold shadow-xs inline-block">
+            🎵 Ketuk di mana saja pada layar untuk memainkan lagu ulang tahun otomatis
           </span>
         </div>
 
-        {/* --- HIGH-CRAFT HEADER RIBBON (CLEAN - NO ARABIC) --- */}
+        {/* --- HIGH-CRAFT HEADER RIBBON --- */}
         <header id="scrapbook-header" className="text-center mb-10 relative">
           
           <div className="inline-block relative">
@@ -403,24 +308,6 @@ function App() {
               className="bg-white/85 backdrop-blur-md px-10 py-7 rounded-[2rem] shadow-sm border border-pastel-green-light relative overflow-hidden"
             >
               
-              {/* Corner Gentle Swaying Flowers */}
-              <motion.div 
-                className="absolute -left-2 -top-2 text-xl select-none"
-                animate={{ rotate: [0, 15, -15, 0] }}
-                transition={{ duration: 4, repeat: Infinity }}
-              >
-                🍀
-              </motion.div>
-              <motion.div 
-                className="absolute -right-2 -top-2 text-xl select-none"
-                animate={{ rotate: [0, -20, 20, 0] }}
-                transition={{ duration: 5, repeat: Infinity }}
-              >
-                🌿
-              </motion.div>
-              <div className="absolute -bottom-2 -left-2 text-xl opacity-60 select-none">🍀</div>
-              <div className="absolute -bottom-2 -right-2 text-xl opacity-60 select-none">🌿</div>
-
               <h4 className="font-serif italic text-pastel-green-dark text-xl sm:text-2xl md:text-3xl font-extrabold mb-2.5">
                 Hari Istimewa • Doa Terbaik Sepanjang Masa
               </h4>
@@ -431,7 +318,7 @@ function App() {
               </h1>
 
               <p className="text-stone-600 font-sans text-sm sm:text-base md:text-lg font-medium tracking-wide max-w-2xl mx-auto leading-relaxed mt-4">
-                Platform scrapbook kebahagiaan digital yang kupersembahkan khusus sebagai kado terindah untuk merayakan hari lahir dokter yang paling ramah, hangat, dan penyabar! 👨‍⚕️🩺💖
+                Scrapbook penuh kenangan dan doa terbaik yang kupersembahkan khusus sebagai kado terindah untuk merayakan hari lahir dokter yang paling ramah, hangat, dan penyabar! 👨‍⚕️🩺💖
               </p>
             </motion.div>
           </div>
@@ -516,21 +403,21 @@ function App() {
             </motion.div>
 
 
-            {/* DYNAMIC VIRTUAL BIRTHDAY CAKE */}
+            {/* DYNAMIC BIRTHDAY CAKE */}
             <motion.div 
               id="scr-birthday-cake"
               whileHover={{ y: -2 }}
               className="bg-white p-6 rounded-3xl border border-pastel-green-light shadow-md relative overflow-hidden"
             >
               <div className="absolute -right-16 top-5 bg-pastel-green-dark text-white text-[10px] font-bold py-1 px-16 rotate-45 uppercase tracking-widest text-center shadow-xs">
-                TIUP AKU! 🎂
+                TIUP LILIN! 🎂
               </div>
 
               <div className="flex items-center space-x-2 mb-4">
                 <div className="p-1.5 bg-emerald-50 rounded-lg text-pastel-green-dark">
                   <Gift className="w-4 h-4" />
                 </div>
-                <h3 className="font-serif font-black text-lg text-pastel-green-dark">Kue Ulang Tahun Virtual</h3>
+                <h3 className="font-serif font-black text-lg text-pastel-green-dark">Kue Tiup Lilin Harapan</h3>
               </div>
 
               {/* Interactive Candle Blow Area */}
@@ -618,9 +505,9 @@ function App() {
                 <div className="text-center mt-3">
                   <span className="text-[11px] text-stone-400 font-mono tracking-wider font-semibold">
                     {candlesBlown ? (
-                      <span className="text-pastel-green-dark">Kue ulang tahun telah ditiup indah! 🥳 (Klik untuk nyalakan kembali)</span>
+                      <span className="text-pastel-green-dark">Semoga semua doa dan harapan terbaik dr. Ervan dikabulkan! 🥳 (Sentuh untuk nyalakan kembali)</span>
                     ) : (
-                      <span className="text-pastel-green-dark animate-pulse font-bold">✨ Klik kue untuk MENIUP lilin virtual! ✨</span>
+                      <span className="text-pastel-green-dark animate-pulse font-bold">✨ Sentuh kue untuk meniup lilin dan panjatkan doamu! ✨</span>
                     )}
                   </span>
                 </div>
@@ -691,28 +578,20 @@ function App() {
                       className="relative flex items-center justify-center aspect-square"
                     >
                       {isErvanUlangTahun ? (
-                        <>
-                          {/* Highlighted stamp with heartbeat animations */}
-                          <motion.div 
-                            className="absolute inset-[1px] stamp-border rounded-full flex items-center justify-center cursor-pointer bg-pastel-green-dark text-white shadow-md border-2 border-white z-10"
-                            animate={{ scale: [1, 1.15, 0.95, 1.1, 1] }}
-                            transition={{ duration: 2.5, repeat: Infinity }}
-                            aria-label="Dokter Ervan Birthday Day Highlighted"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              triggerConfetti();
-                            }}
-                          >
-                            <span className="text-xs font-black relative">
-                              19
-                              <div className="absolute -top-1.5 -right-1.5 text-[8px]">💖</div>
-                            </span>
-                          </motion.div>
-                          
-                          <div className="absolute -bottom-2 w-1.5 h-1.5 bg-pastel-green-dark rounded-full animate-ping z-20" />
-                        </>
+                        <motion.button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            triggerConfetti();
+                          }}
+                          whileHover={{ scale: 1.15 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer bg-amber-400 text-stone-900 font-black text-sm sm:text-base border-2 border-white shadow-md relative z-20 hover:bg-amber-300 transition-all"
+                          aria-label="Dokter Ervan Birthday Day Highlighted"
+                        >
+                          19
+                        </motion.button>
                       ) : (
-                        <span className={`p-1.5 w-7 h-7 flex items-center justify-center rounded-lg ${day === 1 || day === 7 || day === 14 || day === 21 || day === 28 ? 'text-rose-400 font-bold' : 'text-stone-500'} hover:bg-stone-50 transition-colors`}>
+                        <span className={`p-1.5 w-7 h-7 flex items-center justify-center rounded-lg ${day === 1 || day === 7 || day === 14 || day === 21 || day === 28 ? 'text-rose-500 font-extrabold' : 'text-stone-600 font-bold'} hover:bg-stone-50 transition-colors`}>
                           {day}
                         </span>
                       )}
@@ -783,16 +662,6 @@ function App() {
 
             {/* HIGH-CRAFT PERSONAL LETTER WRITTEN DIRECTLY FROM "ME" ("DARI AKU") */}
             <div id="scrapbook-letter-sheet" className="bg-[#FAFDFB] border border-pastel-green p-6 sm:p-8 rounded-[2rem] shadow-sm relative">
-              
-              {/* Circular Mini Photo Badge sticker */}
-              <div className="absolute top-3.5 right-12 w-16 h-16 rounded-full border-2 border-white bg-white shadow-md p-0.5 overflow-hidden rotate-12 hover:scale-110 transition-transform hidden sm:block z-10">
-                <img 
-                  src={drErvanScrapbookJpg} 
-                  alt="Mini sticker" 
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover rounded-full"
-                />
-              </div>
 
               {/* Note lined page decoration washi paper */}
               <div className="absolute top-[-10px] left-12 w-20 h-5 washi-tape-green -rotate-3 opacity-90 animate-pulse" />
@@ -837,12 +706,12 @@ function App() {
         {/* --- SMALL SCRAPBOOK FOOTER --- */}
         <footer className="text-center mt-12 mb-6">
           <p className="text-xs text-stone-400 font-mono tracking-widest uppercase">
-            DIBUAT DENGAN PENUH ADMIRASI & DOA • dr. Ervan Ulang Tahun Ke-2026 🎉
+            Dibuat dengan segenap ketulusan, rasa kagum, dan doa terbaik untuk dr. Ervan • 19 Juni 2026 💖
           </p>
-          <div className="flex items-center justify-center space-x-2 mt-2 opacity-60">
-            <span className="w-2 h-2 bg-rose-300 rounded-full animate-bounce" />
-            <span className="w-2.5 h-2.5 bg-pastel-green rounded-full animate-pulse" />
-            <span className="w-2 h-2 bg-pastel-cream-dark rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+          <div className="flex items-center justify-center space-x-2 mt-3 opacity-60">
+            <span className="w-1.5 h-1.5 bg-rose-450 rounded-full animate-bounce" />
+            <span className="w-1.5 h-1.5 bg-pastel-green-dark rounded-full animate-pulse" />
+            <span className="w-1.5 h-1.5 bg-pastel-green rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
           </div>
         </footer>
 
