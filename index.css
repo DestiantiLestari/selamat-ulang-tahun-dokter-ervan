@@ -1,6 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Caveat:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap');
 @import "tailwindcss";
 
+html, body {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
 @theme {
   --font-sans: "Quicksand", ui-sans-serif, system-ui, sans-serif;
   --font-hand: "Caveat", cursive;
@@ -125,7 +130,5 @@
 
 /* Custom stamp style border */
 .stamp-border {
-  border: 4px solid white;
-  background: white;
   box-shadow: 0 0 0 4px var(--color-pastel-green), 0 4px 8px rgba(0,0,0,0.1);
 }
